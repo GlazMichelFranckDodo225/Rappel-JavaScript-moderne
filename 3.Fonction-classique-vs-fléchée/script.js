@@ -1,44 +1,103 @@
 /* 
-    Redécouvrons ensemble les fonctions fléchées et leurs différences avec les fonctions classiques.
+    Redécouvrons ensemble les fonctions fléchées et leurs différences avec 
+    les fonctions classiques.
 */
 
 
 /* 
     1. Syntaxe.
-    La syntaxe est moins chargée, pouvant ainsi être plus facilement utilisée en tant qu'argument, notamment en tant que fonction callback.
+    La syntaxe est moins chargée, pouvant ainsi être plus facilement utilisée 
+    en tant qu'argument, notamment en tant que fonction callback.
 */
+function add(a, b) {
+    return a + b;
+}
 
+const add2 = (a, b) => {
+    return a + b;
+}
 
+const add3 = (a, b) => a + b; // "return" implicite
+
+const add4 = a => a;
+
+console.log(add(5, 2));
+console.log(add2(5, 2));
+console.log(add3(5, 2));
+console.log(add4(5));
+
+const numbers = [1, 2, 3];
+numbers.forEach(e => console.log(e));
 
 /* 
     2. Le mot clé this.
 
-    Les fonctions classiques créent un mot clé this lors de leur exécution, en fonction de l'objet qui les appelle.
-    Si elles ne sont pas appelées par un objet, this est automatiquement égal à window (l'objet global).
+    Les fonctions classiques créent un mot clé this lors de leur exécution, en fonction 
+    de l'objet qui les appelle.
+    Si elles ne sont pas appelées par un objet, this est automatiquement égal à 
+    window (l'objet global).
 
-    Les fonctions fléchées ne créent pas de this, néanmoins elles peuvent lire le this d'une fonction classique si elles se situent dedans.
-    Si elles ne sont pas dans l'environnement(donc contexte) une fonction classique, elle lisent le this de l'objet global, car elles sont dans le contexte d'execution global.
+    Les fonctions fléchées ne créent pas de this, néanmoins elles peuvent lire le 
+    this d'une fonction classique si elles se situent dedans.
+    Si elles ne sont pas dans l'environnement(donc contexte) une fonction classique, 
+    elle lisent le this de l'objet global, car elles sont dans le contexte d'execution global.
 */
+const person = {
+    age: 45,
+    getAge: function () {
+        return this.age; 
+    }
+}
 
+console.log(person.getAge()); // L'objet appelant est "person" ==> this = person
 
+function foo() {
+    console.log(this);
+}
+foo(); // foo() n'est pas appelée par un objet ==> this = window (l'objet global) ==> window.foo()
+
+const person2 = {
+    age: 90,
+    getAge: function () {
+        const innerArrowFunction = () => {
+            return console.log(this); // this = person2
+        } 
+
+        innerArrowFunction();
+    },
+    getArrowAge: () => {
+        return this;
+    }
+}
+
+console.log(person2.getAge());
+console.log(person2.getArrowAge());
 
 
 /* 
     3. arguments
-    Même chose pour l'objet "arguments" qui est crée chez les fonctions classiques, mais pas les fonctions fléchées.
+    Même chose pour l'objet "arguments" qui est crée chez les fonctions classiques, 
+    mais pas les fonctions fléchées.
 */
+function faz() {
+    console.log(arguments);
+}
+const foz = () => console.log(arguments);
 
-
-
+faz(1, 2, 3, 4, 5);
+// foz(1, 2, 3, 4, 5); // Uncaught ReferenceError: arguments is not defined
 
 /*
-    Petit recap pour vous aider avec la valeur de this dans des fonctions classiques vs fléchées (hors fonction constructeur / usestrict)
+    Petit recap pour vous aider avec la valeur de this dans des fonctions 
+    classiques vs fléchées (hors fonction constructeur / usestrict)
 
     Fonction classique : 
     1. La fonction est appelée depuis un objet ? this = cet objet.
     2. La fonction n'est pas appelée depuis un objet ? this = objet global window.
 
     Fonction fléchée :
-    1. La fonction fléchée se situe dans une fonction classique ? this = le this de la fonction classique.
-    2. La fonction fléchée ne se situe pas dans une fonction classique ? this = objet global window.
+    1. La fonction fléchée se situe dans une fonction classique ? this = au this de 
+    la fonction classique.
+    2. La fonction fléchée ne se situe pas dans une fonction classique ? this = l'objet global 
+    window.
 */
