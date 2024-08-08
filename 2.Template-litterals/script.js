@@ -1,5 +1,5 @@
 /* 
-  Les "template literals" ou "template strings" sont des chaînes utilisant 
+  Les "Template Literals" ou "template strings" sont des chaînes utilisant 
   une syntaxe extrêmement pratique.
   
   On peut les utiliser pour :

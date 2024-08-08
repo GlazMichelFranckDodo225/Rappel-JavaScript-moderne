@@ -1,4 +1,4 @@
-/* 
+/* Let and Const
     Découvrons et rappelons les principales caractéristiques des déclarations let et const, et leurs différences avec le mot-clé var.
 */
 
